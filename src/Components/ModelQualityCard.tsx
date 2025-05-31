@@ -17,6 +17,9 @@ export const ModelQualityCard: React.FC<Props> = ({
         <strong>Average Score: </strong>
         {average.toFixed(2)}
       </p>
+      <p>
+        <strong>PDR (≤ 2):</strong> {pdr.toFixed(2)}
+      </p>
     </div>
   );
 };
