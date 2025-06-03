@@ -30,7 +30,10 @@ function App() {
             <div>
               {selectedModelId === model.modelId && (
                 <div>
-                  <ModelModal modelId={model.modelId} />
+                  <ModelModal
+                    modelId={model.modelId}
+                    onClose={() => setSelectedModelId(null)}
+                  />
                 </div>
               )}
             </div>

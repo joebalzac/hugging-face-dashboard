@@ -1,12 +1,10 @@
 import { CiHeart } from "react-icons/ci";
-import { MdOutlineTipsAndUpdates } from "react-icons/md";
 import { PiDownloadSimple } from "react-icons/pi";
 
 interface Props {
   modelId: string;
   downloads: number;
   likes: number;
-  lastModified: string;
   tags: string[];
   onClick: (modelId: string) => void;
 }
@@ -14,7 +12,7 @@ export const ModelQualityCard: React.FC<Props> = ({
   modelId,
   downloads,
   likes,
-  lastModified,
+  
   tags,
   onClick,
 }) => {
@@ -32,11 +30,6 @@ export const ModelQualityCard: React.FC<Props> = ({
         <div className="flex items-center gap-2">
           <CiHeart />
           <p>{likes}</p>
-        </div>
-
-        <div className="flex items-center gap-2">
-          <MdOutlineTipsAndUpdates />
-          <p>{new Date(lastModified).toLocaleString()}</p>
         </div>
         <div>
           {tags.slice(0, 3).map((tag) => (

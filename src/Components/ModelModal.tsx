@@ -1,16 +1,17 @@
 import { useEffect, useState } from "react";
+import { IoClose } from "react-icons/io5";
+import { MdOutlineTipsAndUpdates } from "react-icons/md";
+import { FaUser, FaTags, FaFileAlt, FaUsers } from "react-icons/fa";
 
 interface ModelDetails {
   modelId: string;
   author?: string;
-  downloads?: number;
-  likes?: number;
   tags?: string[];
   lastModified?: string;
   cardData?: {
     contributors?: string[];
   };
-  siblings?: { rilename: string }[];
+  siblings?: { rfilename: string }[];
 }
 
 const fetchModelDetails = async (modelId: string): Promise<ModelDetails> => {
@@ -22,8 +23,6 @@ const fetchModelDetails = async (modelId: string): Promise<ModelDetails> => {
   return {
     modelId: data.id,
     author: data.author,
-    downloads: data.downloads,
-    likes: data.likes,
     tags: data.tags,
     lastModified: data.lastModified,
     cardData: data.cardData,
@@ -31,7 +30,13 @@ const fetchModelDetails = async (modelId: string): Promise<ModelDetails> => {
   };
 };
 
-export const ModelModal = ({ modelId }: { modelId: string }) => {
+export const ModelModal = ({
+  modelId,
+  onClose,
+}: {
+  modelId: string;
+  onClose: () => void;
+}) => {
   const [modelDetails, setModelDetails] = useState<ModelDetails | null>(null);
 
   useEffect(() => {
@@ -43,9 +48,55 @@ export const ModelModal = ({ modelId }: { modelId: string }) => {
       });
   }, [modelId]);
 
-  if (!modelDetails) {
-    return <div>Loading...</div>;
-  }
+  if (!modelDetails) return <div>Loading...</div>;
 
-  return <div>ModelModal</div>;
+  const formattedDate = modelDetails.lastModified
+    ? new Intl.DateTimeFormat("en-US", {
+        dateStyle: "medium",
+        timeStyle: "short",
+      }).format(new Date(modelDetails.lastModified))
+    : "N/A";
+
+  return (
+    <div className="flex flex-col items-start">
+      <button
+        onClick={onClose}
+        style={{ float: "right", border: "none", background: "transparent" }}
+      >
+        <IoClose size={24} />
+      </button>
+
+      <h2>{modelDetails.modelId}</h2>
+
+      <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2">
+          <FaUser /> <strong>Author:</strong>
+        </div>
+        {modelDetails.author || "N/A"}
+      </div>
+
+      <div className="flex items-center gap-4">
+        <FaTags /> <strong>Tags:</strong>{" "}
+        {modelDetails.tags?.slice(0, 5).join(", ") || "N/A"}
+      </div>
+
+      <div className="flex items-center gap-4">
+        <MdOutlineTipsAndUpdates /> <strong>Last Modified:</strong>{" "}
+        {formattedDate}
+      </div>
+
+      <div className="flex items-center gap-4">
+        <FaUsers /> <strong>Contributors:</strong>{" "}
+        {modelDetails.cardData?.contributors?.slice(0, 5).join(", ") || "N/A"}
+      </div>
+
+      <div>
+        <FaFileAlt /> <strong>Files:</strong>{" "}
+        {modelDetails.siblings
+          ?.map((file) => file.rfilename)
+          .slice(0, 5)
+          .join(", ") || "N/A"}
+      </div>
+    </div>
+  );
 };
