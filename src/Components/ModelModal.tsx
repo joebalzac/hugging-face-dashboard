@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { IoClose } from "react-icons/io5";
 import { MdOutlineTipsAndUpdates } from "react-icons/md";
 import { FaUser, FaTags, FaFileAlt, FaUsers } from "react-icons/fa";
+import { TasksDisplayCarousel } from "./TasksDisplayCarousel";
 
 interface ModelDetails {
   modelId: string;
@@ -97,6 +98,7 @@ export const ModelModal = ({
           .slice(0, 5)
           .join(", ") || "N/Aaaaa"}
       </div>
+      <TasksDisplayCarousel files={modelDetails.siblings ?? []} />
     </div>
   );
 };
