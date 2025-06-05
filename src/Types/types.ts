@@ -8,3 +8,19 @@ export interface ModelQualityMetric {
   average: number;
   pdr: number;
 }
+
+export interface TrendingModel {
+  modelId: string;
+  downloads: number;
+  likes: number;
+  lastModified: string;
+  tags: string[];
+}
+
+export interface HuggingFaceAPIModel {
+  id: string;
+  downloads?: number;
+  likes?: number;
+  lastModified: string;
+  tags?: string[];
+}
